@@ -2,11 +2,12 @@ package com.danilovfa.space.presentation.ui
 
 import android.os.Bundle
 import androidx.activity.addCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.danilovfa.space.R
 import com.danilovfa.space.databinding.ActivityMainBinding
 import com.danilovfa.space.presentation.navigation.Screens.TabContainer
+import com.danilovfa.space.presentation.mvp.main.MainPresenter
+import com.danilovfa.space.presentation.mvp.main.MainView
 import com.danilovfa.space.presentation.notifications.ChargingNotificationWorker
 import com.danilovfa.space.utils.BackButtonListener
 import com.danilovfa.space.utils.Constants.Companion.HOME_TAB_ID
@@ -18,16 +19,28 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import moxy.MvpAppCompatActivity
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), RouterProvider {
+class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
     @Inject
     override lateinit var router: Router
+
+    @Inject
+    lateinit var hiltPresenter: MainPresenter
+
+    @InjectPresenter
+    lateinit var presenter: MainPresenter
+
+    @ProvidePresenter
+    fun provideMainPresenter() = hiltPresenter
 
     private var defaultTabId = HOME_TAB_ID
 
@@ -124,7 +137,7 @@ class MainActivity : AppCompatActivity(), RouterProvider {
             if (fragment != null && fragment is BackButtonListener && (fragment as BackButtonListener).onBackPressed()) {
                 return@addCallback
             } else {
-                router.exit()
+                presenter.onBackPressed()
             }
         }
     }
