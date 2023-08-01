@@ -5,8 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.view.MenuProvider
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.window.layout.WindowMetricsCalculator
 import com.danilovfa.common.domain.model.MarsRoverPhoto
@@ -29,7 +27,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate), HomeView,
-    BackButtonListener, PhotosAdapter.OnItemClickListener, MenuProvider {
+    BackButtonListener, PhotosAdapter.OnItemClickListener {
 
     @Inject
     lateinit var hiltPresenter: HomePresenter
@@ -42,21 +40,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val menuHost = requireActivity()
-        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         setupToolbar()
 
         presenter.getPhotos()
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden)
-            setupToolbar()
-    }
-
-    private fun setupToolbar() {
-        showAppBar()
+    override fun setupToolbar() {
+        super.setupToolbar()
         toolbarHideBackButton()
     }
 

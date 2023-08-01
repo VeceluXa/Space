@@ -2,8 +2,13 @@ package com.danilovfa.space.presentation.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.viewbinding.ViewBinding
 import com.danilovfa.space.R
 import com.danilovfa.space.presentation.ui.MainActivity
@@ -13,11 +18,12 @@ typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
 open class BaseFragment<VB : ViewBinding>(
     private val inflate: Inflate<VB>
-) : MvpAppCompatFragment() {
+) : MvpAppCompatFragment(), MenuProvider {
     private var _binding: VB? = null
     val binding get() = _binding!!
 
     private var activity: MainActivity? = null
+    private var isFragmentInTabVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,12 +37,37 @@ open class BaseFragment<VB : ViewBinding>(
         if (requireActivity() is MainActivity) {
             activity = requireActivity() as MainActivity
         }
-        setup()
+
+        showBottomNavigation()
+        addMenuProvider()
+        setupToolbar()
     }
 
-    private fun setup() {
-        showBottomNavigation()
-        hideAppBar()
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            setupToolbar()
+        } else {
+            toolbarClear()
+            toolbarHide()
+        }
+    }
+
+    protected open fun setupToolbar() {
+        if (isFragmentInTabVisible) {
+            addMenuProvider()
+        }
+        toolbarShow()
+    }
+
+    private fun addMenuProvider() {
+        val menuHost = requireActivity()
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    private fun removeMenuProvider() {
+        val menuHost = requireActivity()
+        menuHost.removeMenuProvider(this)
     }
 
     protected fun hideBottomNavigation() {
@@ -49,12 +80,19 @@ open class BaseFragment<VB : ViewBinding>(
         bottomNavigationToolbar?.visibility = View.VISIBLE
     }
 
-    protected fun hideAppBar() {
+    protected fun toolbarClear() {
+        if (isFragmentInTabVisible) {
+            removeMenuProvider()
+        }
+        activity?.binding?.materialToolbar?.menu?.clear()
+    }
+
+    protected fun toolbarHide() {
         val appBar = activity?.binding?.appBarLayout
         appBar?.visibility = View.GONE
     }
 
-    protected fun showAppBar() {
+    protected fun toolbarShow() {
         val appBar = activity?.binding?.appBarLayout
         appBar?.visibility = View.VISIBLE
     }
@@ -76,6 +114,16 @@ open class BaseFragment<VB : ViewBinding>(
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        isFragmentInTabVisible = true
+    }
+
+    override fun onStop() {
+        super.onStop()
+        isFragmentInTabVisible = false
+    }
+
     protected fun toolbarHideBackButton() {
         activity?.apply {
             supportActionBar?.apply {
@@ -84,5 +132,13 @@ open class BaseFragment<VB : ViewBinding>(
             }
             binding.materialToolbar.setNavigationOnClickListener(null)
         }
+    }
+
+    open override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+
+    }
+
+    open override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return false
     }
 }

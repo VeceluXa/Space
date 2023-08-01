@@ -21,4 +21,6 @@
     <string name="rover_curiosity">Curiosity</string>
     <string name="rover_opportunity">Opportunity</string>
     <string name="rover_spirit">Spirit</string>
+    <string name="map_of_earth">Map of Earth</string>
+    <string name="change_map_view">Change map view</string>
 </resources>
