@@ -2,6 +2,7 @@ package com.danilovfa.space.presentation.mvp.home
 
 import com.danilovfa.common.domain.model.MarsRoverPhoto
 import com.danilovfa.common.domain.usecase.GetRoverPhotosUseCase
+import com.danilovfa.common.utils.Constants.Companion.ROVER_CURIOSITY
 import com.danilovfa.space.R
 import com.danilovfa.space.presentation.navigation.Screens.PhotoScreen
 import com.github.terrakok.cicerone.Router
@@ -17,13 +18,14 @@ class HomePresenter @Inject constructor(
 ) : MvpPresenter<HomeView>() {
 
     private var photos = listOf<MarsRoverPhoto>()
+    private var scrollPosition = 0
 
     private var photosDisposable: Disposable? = null
 
-    fun getPhotos() {
+    fun getPhotos(rover: String = ROVER_CURIOSITY) {
         viewState.showProgressBar()
         if (photos.isEmpty()) {
-            photosDisposable = getRoverPhotosUseCase.execute()
+            photosDisposable = getRoverPhotosUseCase.execute(rover)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ newPhotos ->
                     updatePhotos(newPhotos)
@@ -33,9 +35,13 @@ class HomePresenter @Inject constructor(
         } else {
             viewState.apply {
                 hideProgressBar()
-                showPhotos(photos)
+                showPhotos(photos, scrollPosition)
             }
         }
+    }
+
+    fun saveScrollPosition(position: Int) {
+        scrollPosition = position
     }
 
     private fun updatePhotos(newPhotos: List<MarsRoverPhoto>) {
@@ -43,7 +49,7 @@ class HomePresenter @Inject constructor(
         photos = newPhotos
         viewState.apply {
             hideProgressBar()
-            showPhotos(photos)
+            showPhotos(photos, scrollPosition)
         }
     }
 
@@ -57,6 +63,12 @@ class HomePresenter @Inject constructor(
                 showError(R.string.error_default)
         }
 
+    }
+
+    fun selectRover(rover: String) {
+        photos = listOf()
+        scrollPosition = 0
+        getPhotos(rover)
     }
 
     fun onBackPressed() {
