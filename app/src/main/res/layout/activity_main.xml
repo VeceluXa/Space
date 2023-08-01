@@ -21,10 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:background="@color/black"
-        app:itemIconTint="@drawable/bottom_navigation_item_color"
-        app:itemBackground="@drawable/bottom_navigation_item_background"
-        app:labelVisibilityMode="unlabeled"
         app:itemActiveIndicatorStyle="@style/BottomNavigationViewCustomIndicator"
+        app:itemBackground="@drawable/bottom_navigation_item_background"
+        app:itemIconTint="@drawable/bottom_navigation_item_color"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,9 +49,9 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:theme="@style/Theme.Space.Toolbar"
-            app:popupTheme="@style/Theme.Space.Toolbar"
             app:buttonGravity="center_vertical"
-            app:maxButtonHeight="48dp" />
+            app:maxButtonHeight="48dp"
+            app:popupTheme="@style/Theme.Space.Toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

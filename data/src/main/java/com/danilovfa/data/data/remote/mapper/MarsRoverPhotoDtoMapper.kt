@@ -4,7 +4,7 @@ import com.danilovfa.common.domain.model.MarsRoverPhoto
 import com.danilovfa.common.utils.Mapper
 import com.danilovfa.data.data.remote.response.PhotoDto
 
-class MarsRoverPhotoDtoMapper: Mapper<PhotoDto, MarsRoverPhoto> {
+class MarsRoverPhotoDtoMapper : Mapper<PhotoDto, MarsRoverPhoto> {
     override fun mapFromEntity(entity: PhotoDto): MarsRoverPhoto {
         return MarsRoverPhoto(
             rover = entity.rover.name,

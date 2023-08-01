@@ -88,6 +88,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
             setup()
 
     }
+
     private fun setup() {
         val tabIdOrNull =
             intent.extras?.getString(ChargingNotificationWorker.EXTRA_TAB_CONTAINER_ID)
