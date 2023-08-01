@@ -2,6 +2,7 @@ package com.danilovfa.space.presentation.ui
 
 import android.os.Bundle
 import androidx.activity.addCallback
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import com.danilovfa.space.R
 import com.danilovfa.space.databinding.ActivityMainBinding
@@ -9,11 +10,13 @@ import com.danilovfa.space.presentation.navigation.Screens.TabContainer
 import com.danilovfa.space.presentation.mvp.main.MainPresenter
 import com.danilovfa.space.presentation.mvp.main.MainView
 import com.danilovfa.space.presentation.notifications.ChargingNotificationWorker
-import com.danilovfa.space.utils.BackButtonListener
+import com.danilovfa.space.presentation.navigation.BackButtonListener
 import com.danilovfa.space.utils.Constants.Companion.HOME_TAB_ID
 import com.danilovfa.space.utils.Constants.Companion.MAP_TAB_ID
 import com.danilovfa.space.presentation.notifications.NotificationManager
-import com.danilovfa.space.utils.RouterProvider
+import com.danilovfa.space.utils.NetworkStatus
+import com.danilovfa.space.presentation.navigation.RouterProvider
+import com.danilovfa.space.presentation.ui.dialog.TextDialogFragment
 import com.github.terrakok.cicerone.Command
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
@@ -28,7 +31,7 @@ import javax.inject.Inject
 class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
 
     private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
 
     @Inject
     override lateinit var router: Router
@@ -56,9 +59,36 @@ class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val networkStatus =
+            NetworkStatus(this@MainActivity).checkInternetConnection()
+
+        installSplashScreen().apply {
+            setOnExitAnimationListener {
+                if (!networkStatus) {
+                    TextDialogFragment.display(
+                        supportFragmentManager,
+                        title = getString(R.string.error_title),
+                        body = getString(R.string.error_no_connection)
+                    ) {
+                        finishAffinity()
+                    }
+                } else {
+                    it.remove()
+                }
+            }
+        }
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.materialToolbar)
+        supportActionBar?.title = ""
+
+        if (networkStatus)
+            setup()
+
+    }
+    private fun setup() {
         val tabIdOrNull =
             intent.extras?.getString(ChargingNotificationWorker.EXTRA_TAB_CONTAINER_ID)
         if (tabIdOrNull != null) defaultTabId = tabIdOrNull

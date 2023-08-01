@@ -1,6 +1,7 @@
 package com.danilovfa.space.presentation.di
 
 import com.danilovfa.common.domain.usecase.GetRoverPhotosUseCase
+import com.danilovfa.common.domain.usecase.HasTutorialBeenShownUseCase
 import com.danilovfa.space.presentation.navigation.LocalNavigatorHolder
 import com.danilovfa.space.presentation.mvp.home.HomePresenter
 import com.danilovfa.space.presentation.mvp.main.MainPresenter
@@ -35,9 +36,12 @@ class AppModule {
     }
 
     @Provides
-    fun providePhotoPresenter(localNavigatorHolder: LocalNavigatorHolder): PhotoPresenter {
+    fun providePhotoPresenter(
+        localNavigatorHolder: LocalNavigatorHolder,
+        hasTutorialBeenShownUseCase: HasTutorialBeenShownUseCase
+    ): PhotoPresenter {
         val router = localNavigatorHolder.getCicerone(HOME_TAB_ID).router
-        return PhotoPresenter(router)
+        return PhotoPresenter(router, hasTutorialBeenShownUseCase)
     }
 
     @Provides
@@ -45,8 +49,6 @@ class AppModule {
         val router = localNavigatorHolder.getCicerone(MAP_TAB_ID).router
         return MapPresenter(router)
     }
-
-
 
 
 }

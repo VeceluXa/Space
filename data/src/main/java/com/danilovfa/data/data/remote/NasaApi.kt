@@ -1,10 +1,9 @@
 package com.danilovfa.data.data.remote
 
+import com.danilovfa.common.utils.Constants.Companion.ROVER_CURIOSITY
 import com.danilovfa.data.BuildConfig
 import com.danilovfa.data.data.remote.response.MarsRoverPhotoListDto
-import com.danilovfa.data.utils.Constants.Companion.DEFAULT_ROVER
 import com.danilovfa.data.utils.Constants.Companion.DEFAULT_SOL
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,7 +17,7 @@ interface NasaApi {
      */
     @GET("rovers/{rover}/photos")
     fun getRoversPhotos(
-        @Path("rover") rover: String = DEFAULT_ROVER,
+        @Path("rover") rover: String = ROVER_CURIOSITY,
         @Query("sol") sol: Int = DEFAULT_SOL,
         @Query("camera") camera: String? = null,
         @Query("api_key") apiKey: String = BuildConfig.NASA_API_KEY

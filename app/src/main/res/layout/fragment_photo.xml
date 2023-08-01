@@ -5,13 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Photo"
+    <com.ortiz.touchview.TouchImageView
+        android:id="@+id/photoTouchImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/photo_from_mars"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+<!--    <com.google.android.material.appbar.MaterialToolbar-->
+<!--        android:id="@+id/materialToolbar"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:minHeight="?attr/actionBarSize"-->
+<!--        android:theme="?attr/actionBarTheme"-->
+<!--        app:contentInsetEnd="16dp"-->
+<!--        app:contentInsetStart="16dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/backButtonToolbar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:focusable="true"-->
+<!--            android:clickable="true"-->
+<!--            android:contentDescription="@string/back"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:src="@drawable/toolbar_icon_back"-->
+<!--            tools:layout_editor_absoluteX="16dp" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/shareButtonToolbar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end"-->
+<!--            android:focusable="true"-->
+<!--            android:clickable="true"-->
+<!--            android:contentDescription="@string/share"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:src="@drawable/toolbar_icon_share"-->
+<!--            tools:layout_editor_absoluteX="324dp" />-->
+<!--    </com.google.android.material.appbar.MaterialToolbar>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

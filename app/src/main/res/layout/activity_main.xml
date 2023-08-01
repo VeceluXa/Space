@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_black"
     tools:context=".presentation.ui.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -18,10 +19,39 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
+        android:background="@color/black"
+        app:itemIconTint="@drawable/bottom_navigation_item_color"
+        app:itemBackground="@drawable/bottom_navigation_item_background"
+        app:labelVisibilityMode="unlabeled"
+        app:itemActiveIndicatorStyle="@style/BottomNavigationViewCustomIndicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/navigation"/>
+        app:menu="@menu/navigation" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/materialToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:minHeight="88dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:theme="@style/Theme.Space.Toolbar"
+            app:popupTheme="@style/Theme.Space.Toolbar"
+            app:buttonGravity="center_vertical"
+            app:maxButtonHeight="48dp" />
+    </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

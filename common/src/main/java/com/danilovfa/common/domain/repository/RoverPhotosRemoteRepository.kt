@@ -4,5 +4,5 @@ import com.danilovfa.common.domain.model.MarsRoverPhoto
 import io.reactivex.rxjava3.core.Single
 
 interface RoverPhotosRemoteRepository {
-    fun fetchRoverPhotos(): Single<List<MarsRoverPhoto>>
+    fun fetchRoverPhotos(rover: String): Single<List<MarsRoverPhoto>>
 }

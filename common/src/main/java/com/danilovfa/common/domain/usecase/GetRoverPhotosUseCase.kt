@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetRoverPhotosUseCase @Inject constructor(
     private val remoteRepository: RoverPhotosRemoteRepository
 ) {
-    fun execute(): Single<List<MarsRoverPhoto>> {
-        return remoteRepository.fetchRoverPhotos()
+    fun execute(rover: String): Single<List<MarsRoverPhoto>> {
+        return remoteRepository.fetchRoverPhotos(rover)
     }
 }
