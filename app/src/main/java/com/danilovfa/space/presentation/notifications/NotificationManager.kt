@@ -82,7 +82,6 @@ class NotificationManager(private val context: Context) {
     // Call only in Activity
     fun setupPermissions() {
         if (context is AppCompatActivity) {
-            Log.d("NotificationManager", "setupPermissions: MainActivity")
             askForNotificationPermissions(context)
             createNotificationChannel()
         }

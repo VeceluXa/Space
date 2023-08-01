@@ -21,7 +21,6 @@ class DeviceBootBroadcastReceiver : BroadcastReceiver() {
                 .build()
 
             WorkManager.getInstance(context).enqueue(request)
-            Log.d("MyWorker", "onStartReceiver")
         }
     }
 }

@@ -68,7 +68,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         val widthDp = currentBounds.width().toDp(requireContext())
 
         val numberOfColumns = (widthDp / ITEM_WIDTH_DP).toInt()
-        Log.d("MyFragment", "getNumberOfColumns: $widthDp, $numberOfColumns")
         return numberOfColumns
     }
 

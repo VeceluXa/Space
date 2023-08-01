@@ -23,8 +23,6 @@ class ChargingNotificationWorker(
     private fun sendNotification() {
         val notificationManager = NotificationManager(context)
 
-        Log.d("MyWorker", "sendNotification")
-
         val intent = Intent(context, MainActivity::class.java).apply {
             putExtra(EXTRA_TAB_CONTAINER_ID, Constants.MAP_TAB_ID)
         }

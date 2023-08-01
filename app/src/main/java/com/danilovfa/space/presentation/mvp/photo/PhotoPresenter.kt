@@ -14,9 +14,7 @@ class PhotoPresenter(
 
     fun doShowTutorial() {
         val doShow = hasTutorialBeenShownUseCase.execute()
-        Log.d("MySharedPrefs", "doShowTutorial: $doShow")
         if (doShow) {
-            Log.d("MySharedPrefs", "doShowTutorial: doShow")
             viewState.showTutorial()
         }
     }

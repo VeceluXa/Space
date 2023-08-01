@@ -15,7 +15,6 @@ class SharedPrefsManager @Inject constructor(
 
     fun getFirstTimeTrue(name: String): Boolean {
         val result = sharedPref.getBoolean(name, true)
-        Log.d("MySharedPrefs", "getFirstTimeTrue: $result")
 
         val edit = sharedPref.edit()
         edit.putBoolean(name, false)
