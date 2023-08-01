@@ -111,9 +111,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             getString(R.string.rover_spirit) to ROVER_SPIRIT
         )
 
+        val selectedRover = when (presenter.rover) {
+            ROVER_OPPORTUNITY -> getString(R.string.rover_opportunity)
+            ROVER_SPIRIT -> getString(R.string.rover_spirit)
+            else -> getString(R.string.rover_curiosity)
+        }
+
         RadioDialogFragment.display(
             fragmentManager = childFragmentManager,
             title = getString(R.string.select_rover),
+            selectedItem = selectedRover,
             radioButtons = rovers.keys.toList()
         ) { position ->
             rovers[position]?.let {

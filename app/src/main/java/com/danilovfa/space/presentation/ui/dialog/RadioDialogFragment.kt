@@ -14,6 +14,7 @@ import com.danilovfa.space.utils.extensions.addGradient
 class RadioDialogFragment(
     private val title: String,
     private val radioButtonsText: List<String>,
+    private val selectedItem: String = radioButtonsText[0],
     private val onSelectItem: (text: String) -> Unit
 ) : BaseDialogFragment<FragmentDialogRadioBinding>(FragmentDialogRadioBinding::inflate) {
     companion object {
@@ -21,9 +22,10 @@ class RadioDialogFragment(
             fragmentManager: FragmentManager,
             title: String,
             radioButtons: List<String>,
+            selectedItem: String = radioButtons[0],
             onSelectItem: (text: String) -> Unit
         ): RadioDialogFragment {
-            val dialog = RadioDialogFragment(title, radioButtons, onSelectItem)
+            val dialog = RadioDialogFragment(title, radioButtons, selectedItem, onSelectItem)
             dialog.show(fragmentManager, TAG)
             return dialog
         }
@@ -55,7 +57,10 @@ class RadioDialogFragment(
             binding.radioGroup.addView(radioButton)
         }
 
-        binding.radioGroup.check(radioButtons[0].id)
+        val selectedItemPosition = radioButtonsText.indexOf(selectedItem)
+        val selectedRadioButton = radioButtons[selectedItemPosition]
+
+        binding.radioGroup.check(selectedRadioButton.id)
 
         binding.okTextView.setOnClickListener {
             val checkedId = binding.radioGroup.checkedRadioButtonId
