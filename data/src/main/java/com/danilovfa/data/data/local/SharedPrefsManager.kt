@@ -1,6 +1,7 @@
 package com.danilovfa.data.data.local
 
 import android.content.Context
+import android.util.Log
 import com.danilovfa.data.utils.Constants.Companion.PREFERENCE_FILE_KEY
 import javax.inject.Inject
 
@@ -13,13 +14,13 @@ class SharedPrefsManager @Inject constructor(
     )
 
     fun getFirstTimeTrue(name: String): Boolean {
-        return if (!sharedPref.contains(name)) {
-            val edit = sharedPref.edit()
-            edit.putBoolean(name, false)
-            edit.apply()
-            true
-        } else {
-            sharedPref.getBoolean(name, false)
-        }
+        val result = sharedPref.getBoolean(name, true)
+        Log.d("MySharedPrefs", "getFirstTimeTrue: $result")
+
+        val edit = sharedPref.edit()
+        edit.putBoolean(name, false)
+        edit.apply()
+
+        return result
     }
 }
