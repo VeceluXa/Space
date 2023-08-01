@@ -9,9 +9,9 @@ import com.danilovfa.space.R
 import com.danilovfa.space.presentation.navigation.LocalNavigatorHolder
 import com.danilovfa.space.presentation.navigation.Screens.HomeScreen
 import com.danilovfa.space.presentation.navigation.Screens.MapScreen
-import com.danilovfa.space.utils.BackButtonListener
+import com.danilovfa.space.presentation.navigation.BackButtonListener
 import com.danilovfa.space.utils.Constants.Companion.MAP_TAB_ID
-import com.danilovfa.space.utils.RouterProvider
+import com.danilovfa.space.presentation.navigation.RouterProvider
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.Router
