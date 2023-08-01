@@ -8,7 +8,7 @@ class MarsRoverPhotoDtoMapper: Mapper<PhotoDto, MarsRoverPhoto> {
     override fun mapFromEntity(entity: PhotoDto): MarsRoverPhoto {
         return MarsRoverPhoto(
             rover = entity.rover.name,
-            camera = entity.camera.name,
+            camera = entity.camera.fullName,
             photoUrl = entity.imgSrc
         )
     }
