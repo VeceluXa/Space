@@ -13,8 +13,8 @@ class RoverPhotosRemoteRepositoryImpl @Inject constructor(
 ) : RoverPhotosRemoteRepository {
     private val mapper = MarsRoverPhotoListDtoMapper()
 
-    override fun fetchRoverPhotos(): Single<List<MarsRoverPhoto>> {
-        return api.getRoversPhotos()
+    override fun fetchRoverPhotos(rover: String): Single<List<MarsRoverPhoto>> {
+        return api.getRoversPhotos(rover)
             .subscribeOn(Schedulers.io())
             .map { listEntity ->
                 val domain = mapper.mapFromEntity(listEntity)
