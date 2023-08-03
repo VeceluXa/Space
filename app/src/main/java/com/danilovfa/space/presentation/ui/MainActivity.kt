@@ -1,6 +1,7 @@
 package com.danilovfa.space.presentation.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.addCallback
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
@@ -85,19 +86,27 @@ class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
         supportActionBar?.title = ""
 
         if (networkStatus)
-            setup()
+            setup(savedInstanceState)
 
     }
 
-    private fun setup() {
-        val tabIdOrNull =
-            intent.extras?.getString(ChargingNotificationWorker.EXTRA_TAB_CONTAINER_ID)
-        if (tabIdOrNull != null) defaultTabId = tabIdOrNull
+    private fun setup(savedInstanceState: Bundle?) {
+        restoreSavedDefaultTab(savedInstanceState)
 
         setBottomNavigationListener()
         setOnBackPressedListener()
 
         NotificationManager(this).setupPermissions()
+    }
+
+    private fun restoreSavedDefaultTab(savedInstanceState: Bundle?) {
+        val savedDefaultTab = savedInstanceState?.getString(SAVED_DEFAULT_TAB_ID)
+        if (savedDefaultTab == HOME_TAB_ID || savedDefaultTab == MAP_TAB_ID)
+            defaultTabId = savedDefaultTab
+
+        val tabIdOrNull =
+            intent.extras?.getString(ChargingNotificationWorker.EXTRA_TAB_CONTAINER_ID)
+        if (tabIdOrNull != null) defaultTabId = tabIdOrNull
     }
 
     private fun setBottomNavigationListener() {
@@ -139,6 +148,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
         if (currentFragment != null && newFragment != null && currentFragment == newFragment) return
         val transaction = fm.beginTransaction()
         if (newFragment == null) {
+            defaultTabId = containerId
             transaction.add(
                 R.id.fragmentContainerView,
                 TabContainer(containerId).createFragment(fm.fragmentFactory),
@@ -149,6 +159,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
             transaction.hide(currentFragment)
         }
         if (newFragment != null) {
+            defaultTabId = containerId
             transaction.show(newFragment)
         }
         transaction.commitNow()
@@ -173,6 +184,12 @@ class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("MyMainActivity", "onSaveInstanceState: $defaultTabId")
+        outState.putString(SAVED_DEFAULT_TAB_ID, defaultTabId)
+    }
+
     override fun onResumeFragments() {
         super.onResumeFragments()
         navigatorHolder.setNavigator(navigator)
@@ -186,5 +203,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        private const val SAVED_DEFAULT_TAB_ID = "SavedDefaultTabId"
     }
 }
