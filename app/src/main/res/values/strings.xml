@@ -23,4 +23,11 @@
     <string name="rover_spirit">Spirit</string>
     <string name="map_of_earth">Map of Earth</string>
     <string name="change_map_view">Change map view</string>
+    <string name="save">SAVE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="marker_name">Marker name</string>
+    <string name="longitude">Longitude:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="delete_marker">Delete marker</string>
+    <string name="markers">Markers</string>
 </resources>
