@@ -39,14 +39,12 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>(FragmentPhotoBinding::i
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar()
         showPhoto()
         presenter.doShowTutorial()
     }
 
     override fun setupToolbar() {
         super.setupToolbar()
-
         toolbarShowBackButton {
             onBackPressed()
         }

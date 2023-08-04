@@ -23,7 +23,9 @@ open class BaseFragment<VB : ViewBinding>(
     val binding get() = _binding!!
 
     private var activity: MainActivity? = null
-    private var isFragmentInTabVisible = false
+    private var isFragmentInTabVisible = true
+    private var doesMenuProviderExist = false
+    private var isFragmentHidden: Boolean? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,14 +40,17 @@ open class BaseFragment<VB : ViewBinding>(
             activity = requireActivity() as MainActivity
         }
 
-        showBottomNavigation()
-        addMenuProvider()
+        savedInstanceState?.getBoolean(IS_FRAGMENT_HIDDEN)?.let {
+            isFragmentHidden = it
+        }
+
         setupToolbar()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if (!hidden) {
+        isFragmentHidden = hidden
+        if (!hidden && isVisible) {
             setupToolbar()
         } else {
             toolbarClear()
@@ -54,18 +59,22 @@ open class BaseFragment<VB : ViewBinding>(
     }
 
     protected open fun setupToolbar() {
-        if (isFragmentInTabVisible) {
+        if (isFragmentHidden == false || (isFragmentHidden != true && isVisible)) {
             addMenuProvider()
+            toolbarShow()
         }
-        toolbarShow()
     }
 
     private fun addMenuProvider() {
-        val menuHost = requireActivity()
-        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        if (!doesMenuProviderExist) {
+            doesMenuProviderExist = true
+            val menuHost = requireActivity()
+            menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
     }
 
     private fun removeMenuProvider() {
+        doesMenuProviderExist = false
         val menuHost = requireActivity()
         menuHost.removeMenuProvider(this)
     }
@@ -114,16 +123,6 @@ open class BaseFragment<VB : ViewBinding>(
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        isFragmentInTabVisible = true
-    }
-
-    override fun onStop() {
-        super.onStop()
-        isFragmentInTabVisible = false
-    }
-
     protected fun toolbarHideBackButton() {
         activity?.apply {
             supportActionBar?.apply {
@@ -134,11 +133,30 @@ open class BaseFragment<VB : ViewBinding>(
         }
     }
 
-    open override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-
+    override fun onStart() {
+        super.onStart()
+        isFragmentInTabVisible = true
     }
 
-    open override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return false
+    override fun onStop() {
+        super.onStop()
+        toolbarClear()
+        removeMenuProvider()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        isFragmentHidden?.let {
+            outState.putBoolean(IS_FRAGMENT_HIDDEN, it)
+        }
+        outState.putBoolean(DOES_MENU_PROVIDER_EXIST_ID, doesMenuProviderExist)
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) = Unit
+    override fun onMenuItemSelected(menuItem: MenuItem) = false
+
+    companion object {
+        private const val IS_FRAGMENT_HIDDEN = "isFragmentHidden"
+        private const val DOES_MENU_PROVIDER_EXIST_ID = "Does menu provider exist"
     }
 }
