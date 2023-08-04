@@ -5,7 +5,7 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
-interface PhotoView: MvpView {
+interface PhotoView : MvpView {
     @StateStrategyType(value = AddToEndSingleStrategy::class)
     fun showTutorial()
 }

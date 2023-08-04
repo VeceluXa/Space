@@ -22,7 +22,9 @@ class HomePresenter @Inject constructor(
 
     private var photosDisposable: Disposable? = null
 
-    fun getPhotos(rover: String = ROVER_CURIOSITY) {
+    var rover: String = ROVER_CURIOSITY
+
+    fun getPhotos() {
         viewState.showProgressBar()
         if (photos.isEmpty()) {
             photosDisposable = getRoverPhotosUseCase.execute(rover)
@@ -65,10 +67,11 @@ class HomePresenter @Inject constructor(
 
     }
 
-    fun selectRover(rover: String) {
+    fun selectRover(newRover: String) {
         photos = listOf()
         scrollPosition = 0
-        getPhotos(rover)
+        rover = newRover
+        getPhotos()
     }
 
     fun onBackPressed() {

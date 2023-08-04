@@ -9,7 +9,7 @@ import androidx.viewbinding.ViewBinding
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
-open class BaseDialogFragment<VB: ViewBinding>(
+open class BaseDialogFragment<VB : ViewBinding>(
     val inflate: Inflate<VB>
 ) : DialogFragment() {
     private var _binding: VB? = null

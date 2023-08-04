@@ -11,8 +11,8 @@
         android:id="@+id/itemCardView"
         android:layout_width="156dp"
         android:layout_height="wrap_content"
-        android:focusable="true"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/black"
         app:cardCornerRadius="16dp"
@@ -30,8 +30,6 @@
                 android:layout_width="156dp"
                 android:layout_height="156dp"
                 android:background="@drawable/shape_rounded_corners"
-                android:clipToOutline="true"
-                android:src="@drawable/item_photo_placeholder"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

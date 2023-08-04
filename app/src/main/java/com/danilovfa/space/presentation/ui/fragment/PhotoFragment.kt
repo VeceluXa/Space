@@ -7,8 +7,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.view.MenuProvider
-import androidx.lifecycle.Lifecycle
 import com.danilovfa.space.R
 import com.danilovfa.space.databinding.FragmentPhotoBinding
 import com.danilovfa.space.presentation.mvp.photo.PhotoPresenter
@@ -26,7 +24,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class PhotoFragment : BaseFragment<FragmentPhotoBinding>(FragmentPhotoBinding::inflate), PhotoView,
-    BackButtonListener, MenuProvider {
+    BackButtonListener {
 
     @Inject
     lateinit var hiltPresenter: PhotoPresenter
@@ -41,12 +39,15 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>(FragmentPhotoBinding::i
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val menuHost = requireActivity()
-        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        setupToolbar()
         showPhoto()
         presenter.doShowTutorial()
+    }
+
+    override fun setupToolbar() {
+        super.setupToolbar()
+        toolbarShowBackButton {
+            onBackPressed()
+        }
     }
 
     private fun showPhoto() {
@@ -59,20 +60,6 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>(FragmentPhotoBinding::i
             )
         } else {
             showError()
-        }
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden)
-            setupToolbar()
-    }
-
-    private fun setupToolbar() {
-        showAppBar()
-
-        toolbarShowBackButton {
-            onBackPressed()
         }
     }
 
@@ -127,6 +114,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>(FragmentPhotoBinding::i
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.menu_toolbar_details, menu)
+
         val menuShare = menu.findItem(R.id.menuShare)
         menuShare.actionView?.setOnClickListener {
             sharePhoto()

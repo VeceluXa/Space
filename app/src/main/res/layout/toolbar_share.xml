@@ -3,4 +3,4 @@
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:background="@android:color/transparent"
-    android:src="@drawable/toolbar_icon_share"/>
+    android:src="@drawable/toolbar_icon_share" />

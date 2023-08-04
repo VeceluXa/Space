@@ -1,13 +1,10 @@
 package com.danilovfa.space.presentation.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.view.MenuProvider
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.window.layout.WindowMetricsCalculator
 import com.danilovfa.common.domain.model.MarsRoverPhoto
@@ -30,7 +27,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate), HomeView,
-    BackButtonListener, PhotosAdapter.OnItemClickListener, MenuProvider {
+    BackButtonListener, PhotosAdapter.OnItemClickListener {
 
     @Inject
     lateinit var hiltPresenter: HomePresenter
@@ -43,21 +40,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val menuHost = requireActivity()
-        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        setupToolbar()
-
         presenter.getPhotos()
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden)
-            setupToolbar()
-    }
-
-    private fun setupToolbar() {
-        showAppBar()
+    override fun setupToolbar() {
+        super.setupToolbar()
         toolbarHideBackButton()
     }
 
@@ -121,9 +108,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             getString(R.string.rover_spirit) to ROVER_SPIRIT
         )
 
+        val selectedRover = when (presenter.rover) {
+            ROVER_OPPORTUNITY -> getString(R.string.rover_opportunity)
+            ROVER_SPIRIT -> getString(R.string.rover_spirit)
+            else -> getString(R.string.rover_curiosity)
+        }
+
         RadioDialogFragment.display(
             fragmentManager = childFragmentManager,
             title = getString(R.string.select_rover),
+            selectedItem = selectedRover,
             radioButtons = rovers.keys.toList()
         ) { position ->
             rovers[position]?.let {

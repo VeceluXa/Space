@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menuShare"
-        android:title="@string/share"
-        app:actionLayout="@layout/toolbar_share"
+        android:id="@+id/menuChangeMapView"
+        android:title="@string/change_map_view"
+        app:actionLayout="@layout/toolbar_change_map_view"
         app:showAsAction="always" />
 </menu>
