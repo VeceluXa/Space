@@ -1,7 +1,6 @@
 package com.danilovfa.space.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.addCallback
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
@@ -186,7 +185,6 @@ class MainActivity : MvpAppCompatActivity(), MainView, RouterProvider {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.d("MyMainActivity", "onSaveInstanceState: $defaultTabId")
         outState.putString(SAVED_DEFAULT_TAB_ID, defaultTabId)
     }
 
