@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="light_black">#FF1D1E1F</color>
+    <color name="grey">#FF979797</color>
+    <color name="light_grey">#FFC4C4C4</color>
+    <color name="semi_grey">#80C4C4C4</color>
+    <color name="semi_transparent_light_grey">#80C4C4C4</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#FFFFAB08</color>
+    <color name="semi_yellow">#26FFE81C</color>
+    <color name="semi_yellow_2">#66FBC11B</color>
+    <color name="semi_yellow_3">#02FFE81C</color>
+    <color name="pink_1">#FFC00F9E</color>
+    <color name="pink_2">#FFDB3259</color>
 </resources>
